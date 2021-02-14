@@ -11,5 +11,5 @@ end MyAnd;
 
 architecture rtl of MyAnd is
 begin
-  z_po <= x_pi or y_pi;
+  z_po <= x_pi and y_pi;
 end rtl;
