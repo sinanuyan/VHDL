@@ -9,7 +9,7 @@ entity clock is
 end clock;
 
 architecture rtl of clock is
-    constant c_CNT_1HZ   : natural := 12000000;
+    constant c_CNT_1HZ   : natural := 6000000;
     signal r_CNT_1HZ   : natural range 0 to c_CNT_1HZ;
     signal r_TOGGLE_1HZ   : std_logic := '0';
 begin
