@@ -7,6 +7,7 @@
 * Device Package: TQ144
 ### PMOD 2x6
 | Pin  | Pin Name | Package Number |
+| ------------- | ------------- |------------- |
 | 1 | PIO1_02  | 78 |
 | 2 | PIO1_03  | 79 |
 | 3 | PIO1_04  | 80 |
