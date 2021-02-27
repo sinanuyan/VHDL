@@ -2,6 +2,9 @@
 #-- Project file C:\Projects\FPGA\full_adder\full_adder_syn.prj
 #project files
 
+add_file -vhdl -lib work "vhdl/full_adder.vhd" 
+add_file -vhdl -lib work "vhdl/half_adder.vhd" 
+add_file -vhdl -lib work "vhdl/or.vhd" 
 #implementation: "full_adder_Implmnt"
 impl -add full_adder_Implmnt -type fpga
 
@@ -51,5 +54,5 @@ set_option -write_apr_constraint 1
 project -result_format "edif"
 project -result_file ./full_adder_Implmnt/full_adder.edf
 project -log_file "./full_adder_Implmnt/full_adder.srr"
-impl -active "full_adder_Implmnt"
+impl -active full_adder_Implmnt
 project -run synthesis -clean

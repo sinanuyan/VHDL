@@ -29,3 +29,9 @@
 | LED2 | PIO1_12 | 97 | Red |
 | LED3 | PIO1_11 | 96 | Red |
 | LED4 | PIO1_10 | 95 | Green |
+
+### 12 MHz Clock
+| Name| Pin Name | Package Number |
+| ------------- | ------------- |------------- |
+| iCE_CLK| GBIN6/PIO3_00/DP08A| 21 |
+

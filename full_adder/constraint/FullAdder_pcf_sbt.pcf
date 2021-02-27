@@ -1,0 +1,21 @@
+# ##############################################################################
+
+# iCEcube PCF
+
+# Version:            2017.08.27940
+
+# File Generated:     Feb 27 2021 19:56:34
+
+# Family & Device:    iCE40HX1K
+
+# Package:            TQ144
+
+# ##############################################################################
+
+###IOSet List 5
+set_io carry_pi 80 -pullup yes
+set_io carry_po 96
+set_io a_pi 79 -pullup yes
+set_io b_pi 78 -pullup yes
+set_io sum_po 95
+
