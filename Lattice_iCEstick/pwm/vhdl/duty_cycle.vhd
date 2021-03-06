@@ -11,7 +11,7 @@ entity duty_cycle is
 end duty_cycle;
 
 architecture rtl of duty_cycle is
-    constant c_CNT_100HZ        : natural := 600000;
+    constant c_CNT_100HZ        : natural := 1200000;
     signal r_CNT_100HZ          : natural range 0 to c_CNT_100HZ;
     signal up_down              : integer;
     signal duty_cycle           : unsigned(4 downto 0);
