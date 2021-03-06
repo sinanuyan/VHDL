@@ -7,10 +7,9 @@ entity pwm is
     port(
         clk_pi: in  std_logic;
         rst_pi : in std_logic;
-        led_out: out std_logic
+        led_out: out std_logic_vector(4 downto 0)
     );
 end pwm;
-
 
 architecture rtl of pwm is
     component duty_cycle is
@@ -32,7 +31,6 @@ begin
             duty_cylce_po => dc
         );
 
-
     pwm_p: process(clk_pi, rst_pi)
     begin
         if rst_pi = '1' then
@@ -48,5 +46,5 @@ begin
         end if;
     end process pwm_p;
 
-    led_out <= pwm_out;
+    led_out <= (pwm_out & pwm_out & pwm_out & pwm_out & pwm_out);
 end rtl;
