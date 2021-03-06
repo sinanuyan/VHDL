@@ -7,7 +7,7 @@ entity pwm is
     port(
         clk_pi: in  std_logic;
         rst_pi : in std_logic;
-        led_out: out std_logic(4 downto 0);
+        led_out: out std_logic
     );
 end pwm;
 
@@ -47,6 +47,6 @@ begin
             pwm_counter <= pwm_counter + 1;
         end if;
     end process pwm_p;
-    
+
     led_out <= pwm_out;
 end rtl;
