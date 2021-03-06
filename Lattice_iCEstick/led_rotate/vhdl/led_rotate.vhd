@@ -32,14 +32,14 @@ begin
     p_seq: process (rst_pi, clock_1hz)
     begin
       if rst_pi = '1' then
-      c_st <= S0;
+        c_st <= S0;
       elsif rising_edge(clock_1hz) then
-      c_st <= n_st;
+        c_st <= n_st;
       end if;
     end process;
 
     p_com: process (c_st)
-    begin
+    begin   
         n_st <= c_st; -- remain in current state
         case c_st is
             when S0 =>

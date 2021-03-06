@@ -1,9 +1,9 @@
 #-- Synopsys, Inc.
 #-- Project file C:\Projects\VHDL\Lattice_iCEstick\led_rotate\led_rotate\led_rotate_syn.prj
 #project files
-add_file -vhdl -lib work "../vhdl/clock.vhd"
-add_file -vhdl -lib work "../vhdl/led_rotate.vhd"
 
+add_file -vhdl -lib work "../vhdl/clock.vhd" 
+add_file -vhdl -lib work "../vhdl/led_rotate.vhd" 
 #implementation: "led_rotate_Implmnt"
 impl -add led_rotate_Implmnt -type fpga
 
@@ -53,5 +53,5 @@ set_option -write_apr_constraint 1
 project -result_format "edif"
 project -result_file ./led_rotate_Implmnt/led_rotate.edf
 project -log_file "./led_rotate_Implmnt/led_rotate.srr"
-impl -active "led_rotate_Implmnt"
+impl -active led_rotate_Implmnt
 project -run synthesis -clean
