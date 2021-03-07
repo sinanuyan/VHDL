@@ -41,7 +41,7 @@ begin
       end if;
     end process;
 
-    p_uart_tx: process (c_st)
+    p_uart_tx: process (c_st, tx_buffer)
     begin   
         n_st <= c_st; -- remain in current state
         case c_st is
