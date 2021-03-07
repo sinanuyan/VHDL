@@ -7,7 +7,8 @@ entity uart_tx is
     port(
         clk: in  std_logic;
         rst_pi : in std_logic;
-        tx: out std_logic
+        tx: out std_logic;
+        clk_out : out std_logic
     );
 end uart_tx;
 
@@ -82,4 +83,5 @@ begin
                 tx <= '1';
         end case;
     end process;
+    clk_out <= clock_uart;
 end rtl;

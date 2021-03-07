@@ -10,7 +10,7 @@ entity clock is
 end clock;
 
 architecture rtl of clock is
-    constant c_CNT_UART      : natural := 324;
+    constant c_CNT_UART      : natural := 648;
     signal r_CNT_UART        : natural range 0 to c_CNT_UART;
     signal r_TOGGLE_CLK     : std_logic := '0';
 begin

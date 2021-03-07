@@ -1,6 +1,7 @@
 /full_adder/full_adder_Implmnt
 /led_rotate/led_rotate/led_rotate_Implmnt
 /pwm/pwm/pwm_Implmnt
-/pwm/pwm/*.log
-/pwm/pwm/*.log.bak
-/pwm/pwm/*.tcl
+/uart/uart/uart_Implmnt
+/**/**/*.log
+/**/**/*.log.bak
+/**/**/*.tcl
