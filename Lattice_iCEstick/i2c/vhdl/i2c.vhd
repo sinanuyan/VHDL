@@ -13,44 +13,51 @@ entity i2c_master is
 end i2c_master;
 
 architecture rtl of i2c_master is
-    signal clk_counter :    unsigned(2 downto 0);
+    signal clk_counter :    natural range 0 to 5;
+    signal full_clk_toggle: std_logic;
 begin
-    process (clk_pi, rst_pi) is
+    process (clk, rst_pi) is
     begin
         if rst_pi = '1' then
-            full_clk <= '0';
-            half_clk <= '0';
-        elsif rising_edge(clk_pi) then
-            case clk_counter is
-                when 0  =>
-                    full_clk <= '0';
-                    half_clk <= '0';
-                    clk_counter <= clk_counter + 1;
-                when 1  =>
-                    full_clk <= '0';
-                    half_clk <= '1';
-                    clk_counter <= clk_counter + 1;
-                when 2  =>
-                    full_clk <= '1';
-                    half_clk <= '1';
-                    clk_counter <= clk_counter + 1;
-                when 3  =>
-                    full_clk <= '1';
-                    half_clk <= '1';
-                    clk_counter <= clk_counter + 1;
-                when 4  =>
-                    full_clk <= '0';
-                    half_clk <= '1';
-                    clk_counter <= clk_counter + 1;
-                when 5  =>
-                    full_clk <= '0';
-                    half_clk <= '0';
-                    clk_counter <= 0;
-                when others =>
-                    full_clk <= '0';
-                    half_clk <= '0';
-                    clk_counter <= 0;
-                end case;
+            full_clk_toggle <= '0';
+        elsif rising_edge(clk) then
+            if clk_counter < 4 then
+                full_clk_toggle <= not full_clk_toggle;
+                clk_counter <= clk_counter+1;
+            else
+                clk_counter <= 0;
+            end if;
+            -- case clk_counter is
+            --     when 0  =>
+            --         full_clk <= '0';
+            --         half_clk <= '0';
+            --         clk_counter <= clk_counter + 1;
+            --     when 1  =>
+            --         full_clk <= '0';
+            --         half_clk <= '1';
+            --         clk_counter <= clk_counter + 1;
+            --     when 2  =>
+            --         full_clk <= '1';
+            --         half_clk <= '1';
+            --         clk_counter <= clk_counter + 1;
+            --     when 3  =>
+            --         full_clk <= '1';
+            --         half_clk <= '1';
+            --         clk_counter <= clk_counter + 1;
+            --     when 4  =>
+            --         full_clk <= '0';
+            --         half_clk <= '1';
+            --         clk_counter <= clk_counter + 1;
+            --     when 5  =>
+            --         full_clk <= '0';
+            --         half_clk <= '0';
+            --         clk_counter <= 0;
+            --     when others =>
+            --         full_clk <= '0';
+            --         half_clk <= '0';
+            --         clk_counter <= 0;
+            --     end case;
         end if;
     end process;
+    full_clk <= full_clk_toggle;
 end rtl;
