@@ -8,8 +8,8 @@ entity i2c_master is
         clk         : in    std_logic;
         rst_pi      : in    std_logic;
         addr        : in    std_logic_vector(6 downto 0);
-        data        : in    std_logic_vector(7 downto 0);
-        read_write  : in    std_logic;
+        dat         : in    std_logic_vector(7 downto 0);
+        rw          : in    std_logic;
         sda         : out   std_logic;
         scl         : out   std_logic
     );
@@ -27,49 +27,52 @@ begin
     begin
       if rst_pi = '1' then
         c_st <= IDLE;
-      elsif rising_edge(clock_1hz) then
-        c_st <= n_st;
-      end if;
-    end process;
-
-    p_com: process (c_st, addr, data, read_write, counter)
-    begin   
-        n_st <= c_st; -- remain in current state
+        counter <= 6;
+        sda <= '1';
+      elsif rising_edge(clk) then
         case c_st is
             when IDLE =>
-                n_st <= STARTBIT;
-                counter = 6
+                counter <= 6;
+                sda <= '1';
+                c_st <= STARTBIT;
             when STARTBIT =>
-                n_st <= ADDRESS;
                 sda <= '0';
+                c_st <= ADDRESS;
             when ADDRESS =>
-                if counter > 0 then
-                    sda <= address(counter);
+                if counter = 0 then
+                    sda <= addr(counter);
+                    counter <= 7;
+                    c_st <=  READ_WRITE;  
                 else
-                    sda <= address(counter);
-                    counter = 7;
-                    n_st <=  READ_WRITE;
+                    sda <= addr(counter);
+                    counter <= counter - 1;
+                    c_st <=  ADDRESS; 
                 end if ;
             when READ_WRITE =>
-                n_st <=  ADDR_ACKNACK;
-                sda <= read_write;
+                sda <= rw;
+                c_st <=  ADDR_ACKNACK;
             when ADDR_ACKNACK =>
-                n_st <=  ADDR_ACKNACK;
+                c_st <=  DATA;
                 sda <= '0';
             when DATA =>
-                if counter > 0 then
-                    sda <= data(counter);
+                if counter = 0 then
+                    sda <= dat(counter);
+                    c_st <=  DATA_ACKNACK;  
                 else
-                    sda <= data(counter);
-                    n_st <=  DATA_ACKNACK;
+                    sda <= dat(counter);
+                    counter <= counter - 1;
+                    c_st <=  DATA;
                 end if ;
             when DATA_ACKNACK =>
                 sda <= '0';
+                c_st <=  STOPBIT;
             when STOPBIT =>
                 sda <= '1';
+                c_st <=  IDLE;
             when others =>
-                n_st <= IDLE; -- handle parasitic states
+                c_st <= IDLE; -- handle parasitic states
                 sda <= '0';
         end case;
+      end if;
     end process;
 end rtl;
