@@ -16,20 +16,53 @@ entity i2c_master is
 end i2c_master;
 
 architecture rtl of i2c_master is
-    signal counter :    natural range 0 to 7 := 6;
+    signal counter      :    natural range 0 to 7 := 6;
+    signal sda_counter  :   natural range 0 to 3;
+    signal scl_counter  :   natural range 0 to 3;
+    signal sda_clk      :   std_logic := '0';
+    signal scl_clk      :   std_logic := '0';
     signal full_clk_toggle: std_logic;
 
     type state is (IDLE, STARTBIT, ADDRESS, READ_WRITE, ADDR_ACKNACK, DATA, DATA_ACKNACK, STOPBIT);
     signal c_st, n_st: state;
 begin
+    process(rst_pi, clk)
+    begin
+        if rst_pi = '1' then
+            sda_counter <= 0;
+            sda_clk <= '0';
+        elsif rising_edge(clk) then
+            if sda_counter = 2 then
+                sda_clk <= not sda_clk;
+                sda_counter <= 0;
+            else
+                sda_counter <= sda_counter + 1;         
+            end if;
+        end if;
+    end process;
 
-    p_seq: process (rst_pi, clk)
+    process(rst_pi, clk)
+    begin
+        if rst_pi = '1' then
+            scl_counter <= 0;
+            scl_clk <= '0';
+        elsif rising_edge(clk) then
+            if sda_counter = 1 then
+                scl_clk <= not scl_clk;
+                scl_counter <= 0;
+            else
+                scl_counter <= scl_counter + 1;         
+            end if;
+        end if;
+    end process;
+
+    p_seq: process (rst_pi, sda_clk)
     begin
       if rst_pi = '1' then
         c_st <= IDLE;
         counter <= 6;
         sda <= '1';
-      elsif rising_edge(clk) then
+      elsif rising_edge(sda_clk) then
         case c_st is
             when IDLE =>
                 counter <= 6;
