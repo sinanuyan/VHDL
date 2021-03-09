@@ -17,8 +17,8 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/Projects/VHDL/Lattice_iCEstick/pwm/pwm/pwm_Implmnt/sbt/outputs/bitmap/pwm_bitmap.bin</File>
-			<FileTime>03/06/21 23:27:58</FileTime>
+			<File>C:/Projects/VHDL/Lattice_iCEstick/led_rotate/led_rotate/led_rotate_Implmnt/sbt/outputs/bitmap/led_rotate_bitmap.bin</File>
+			<FileTime>03/09/21 20:13:56</FileTime>
 			<Operation>SPI Flash Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -59,7 +59,7 @@
 					<IDCode>0x16</IDCode>
 					<Package>8-pin VDFPN8</Package>
 					<Operation>SPI Flash Erase,Program,Verify</Operation>
-					<File>C:/Projects/VHDL/Lattice_iCEstick/pwm/pwm/pwm_Implmnt/sbt/outputs/bitmap/pwm_bitmap.bin</File>
+					<File>C:/Projects/VHDL/Lattice_iCEstick/led_rotate/led_rotate/led_rotate_Implmnt/sbt/outputs/bitmap/led_rotate_bitmap.bin</File>
 					<AddressBase>0x00000000</AddressBase>
 					<EndAddress>0x00010000</EndAddress>
 					<DeviceSize>32</DeviceSize>
