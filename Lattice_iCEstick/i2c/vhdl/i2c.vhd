@@ -26,7 +26,7 @@ architecture rtl of i2c_master is
     type state is (IDLE, STARTBIT, ADDRESS, READ_WRITE, ADDR_ACKNACK, DATA, DATA_ACKNACK, STOPBIT);
     signal c_st, n_st: state;
 begin
-    p_seq: process (rst_pi, clk)
+    p_seq: process (rst_pi, clk_pi)
     begin
       if rst_pi = '1' then
         c_st <= IDLE;
