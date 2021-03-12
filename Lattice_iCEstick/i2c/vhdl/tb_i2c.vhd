@@ -53,7 +53,7 @@ begin
     p_clk: process
     begin
         if not sim_done then
-            if counter = 100 then
+            if counter = 500 then
                 sim_done <= true;
             else
                 counter <= counter + 1;

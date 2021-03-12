@@ -26,42 +26,13 @@ architecture rtl of i2c_master is
     type state is (IDLE, STARTBIT, ADDRESS, READ_WRITE, ADDR_ACKNACK, DATA, DATA_ACKNACK, STOPBIT);
     signal c_st, n_st: state;
 begin
-    process(rst_pi, clk_pi)
-    begin
-        if rst_pi = '1' then
-            sda_counter <= 0;
-            sda_clk <= '0';
-        elsif rising_edge(clk_pi) then
-            if sda_counter = 2 then
-                sda_clk <= not sda_clk;
-                sda_counter <= 0;
-            else
-                sda_counter <= sda_counter + 1;         
-            end if;
-        end if;
-    end process;
-
-    process(rst_pi, clk_pi)
-    begin
-        if rst_pi = '1' then
-            scl_counter <= 0;
-            scl_clk <= '0';
-        elsif rising_edge(clk_pi) then
-            if sda_counter = 1 then
-                scl_clk <= not scl_clk;
-                scl_counter <= 0;
-            else
-                scl_counter <= scl_counter + 1;         
-            end if;
-        end if;
-    end process;
-
-    p_seq: process (rst_pi, sda_clk)
+    p_seq: process (rst_pi, clk)
     begin
       if rst_pi = '1' then
         c_st <= IDLE;
         counter <= 6;
         sda_po  <= '1';
+        scl_po  <= '1';
       elsif rising_edge(sda_clk) then
         case c_st is
             when IDLE =>
