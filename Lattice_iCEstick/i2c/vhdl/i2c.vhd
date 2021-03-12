@@ -16,7 +16,7 @@ entity i2c_master is
 end i2c_master;
 
 architecture rtl of i2c_master is
-    signal counter      :    natural range 0 to 7 := 6;
+    signal counter      :   natural range 0 to 7 := 6;
     signal sda_counter  :   natural range 0 to 3;
     signal scl_counter  :   natural range 0 to 3;
     signal sda_clk      :   std_logic := '0';
