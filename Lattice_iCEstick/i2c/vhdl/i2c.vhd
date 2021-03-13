@@ -4,6 +4,10 @@ use ieee.numeric_std.all;
 
 
 entity i2c_master is
+    generic(
+      CLK_FREQ      : natural := 12000000;
+      BAUD       :   natural := 100000
+    );
     port(
         clk_pi      : in    std_logic;
         rst_pi      : in    std_logic;
@@ -16,14 +20,29 @@ entity i2c_master is
 end i2c_master;
 
 architecture rtl of i2c_master is
-    signal counter      :   natural range 0 to 8 := 7;
-    signal half_counter :   integer := 0;
-    signal sda_clk      :   std_logic := '0';
-    signal scl_clk      :   std_logic := '0';
-    signal full_clk_toggle: std_logic;
 
-    type state is (IDLE, STARTBIT, ADDRESS, READ_WRITE, ADDR_ACKNACK, DATA, DATA_ACKNACK, STOPBIT);
-    signal c_st, n_st: state;
+  -- number of bits in frame: 
+  -- 1 Bit START
+  -- 7 Bit ADDRESS
+  -- 1 Bit READ/WRITE
+  -- 1 Bit ACK/NACK
+  -- 8 Bit DATA
+  -- 1 Bit ACK/NACK
+  -- 1 Bit STOP
+  constant FRAME      :   natural := 20;
+
+  constant FULL_BIT  : natural := ( CLK_FREQ / BAUD - 1 ) / 2;
+  constant HALF_BIT  : natural := FULL_BIT / 2;
+  constant GAP_WIDTH : natural := FULL_BIT * 4;
+
+  signal counter      :   natural range 0 to 8 := 7;
+  signal half_counter :   integer := 0;
+  signal sda_clk      :   std_logic := '0';
+  signal scl_clk      :   std_logic := '0';
+  signal full_clk_toggle: std_logic;
+
+  type state is (IDLE, STARTBIT, ADDRESS, READ_WRITE, ADDR_ACKNACK, DATA, DATA_ACKNACK, STOPBIT);
+  signal c_st, n_st: state;
 begin
     p_seq: process (rst_pi, clk_pi)
     begin
