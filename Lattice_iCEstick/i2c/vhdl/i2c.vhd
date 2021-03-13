@@ -16,9 +16,8 @@ entity i2c_master is
 end i2c_master;
 
 architecture rtl of i2c_master is
-    signal counter      :   natural range 0 to 7 := 6;
-    signal sda_counter  :   natural range 0 to 3;
-    signal scl_counter  :   natural range 0 to 3;
+    signal counter      :   natural range 0 to 8 := 7;
+    signal half_counter :   integer := 0;
     signal sda_clk      :   std_logic := '0';
     signal scl_clk      :   std_logic := '0';
     signal full_clk_toggle: std_logic;
@@ -30,53 +29,16 @@ begin
     begin
       if rst_pi = '1' then
         c_st <= IDLE;
-        counter <= 6;
+        counter <= 0;
         sda_po  <= '1';
-        scl_po  <= '1';
-      elsif rising_edge(sda_clk) then
-        case c_st is
-            when IDLE =>
-                counter <= 6;
-                sda_po <= '1';
-                c_st <= STARTBIT;
-            when STARTBIT =>
-                sda_po <= '0';
-                c_st <= ADDRESS;
-            when ADDRESS =>
-                if counter = 0 then
-                    sda_po <= addr_pi(counter);
-                    counter <= 7;
-                    c_st <=  READ_WRITE;  
-                else
-                    sda_po <= addr_pi(counter);
-                    counter <= counter - 1;
-                    c_st <=  ADDRESS; 
-                end if ;
-            when READ_WRITE =>
-                sda_po <= rw_pi;
-                c_st <=  ADDR_ACKNACK;
-            when ADDR_ACKNACK =>
-                c_st <=  DATA;
-                sda_po <= '0';
-            when DATA =>
-                if counter = 0 then
-                    sda_po <= dat_pi(counter);
-                    c_st <=  DATA_ACKNACK;  
-                else
-                    sda_po <= dat_pi(counter);
-                    counter <= counter - 1;
-                    c_st <=  DATA;
-                end if ;
-            when DATA_ACKNACK =>
-                sda_po <= '0';
-                c_st <=  STOPBIT;
-            when STOPBIT =>
-                sda_po <= '1';
-                c_st <=  IDLE;
-            when others =>
-                c_st <= IDLE; -- handle parasitic states
-                sda_po <= '0';
-        end case;
+      elsif rising_edge(clk_pi) then
+        if counter = 3 then
+            scl_clk <= not scl_clk;
+            counter <= 0;
+        else
+            counter <= counter + 1;
+        end if;
       end if;
+      scl_po <= scl_clk;
     end process;
 end rtl;
